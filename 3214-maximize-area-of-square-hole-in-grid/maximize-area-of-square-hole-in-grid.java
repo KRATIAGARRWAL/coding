@@ -24,8 +24,7 @@ class Solution {
             }
             else j=i;
         }
-        v=Math.min(v,m);
-        h=Math.min(h,n);
+        
         ans+=Math.min(h,v);
         return ans*ans;
     }
