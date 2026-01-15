@@ -26,6 +26,6 @@ class Solution {
         }
         
         ans+=Math.min(h,v);
-        return ans*ans;
+        return (int)(((long)ans*ans)%1000000007);
     }
 }
