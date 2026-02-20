@@ -1,35 +1,32 @@
 class Solution {
-    public int find(int i, int c, int hold, int[] prices, int n, int dp[][][]){
-        if(i == n || c == 0) return 0;
-
-        if(dp[i][c][hold] != -1) return dp[i][c][hold];
-
-        int ans = 0;
-
-        if(hold == 0){
-            ans = Math.max(
-                -prices[i] + find(i+1, c, 1, prices, n, dp),
-                find(i+1, c, 0, prices, n, dp)
-            );
-        } else {
-            ans = Math.max(
-                prices[i] + find(i+1, c-1, 0, prices, n, dp),
-                find(i+1, c, 1, prices, n, dp)
-            );
-        }
-
-        return dp[i][c][hold] = ans;
-    }
-
+    // public int find(int k, int prices, int i, int c){
+    //     if(i==n)return 0;
+    //     if(k==0) return 0;
+    //     if(c==0){
+    //         return Math.max(find(k,prices, i+1, 1), find())
+    //     }
+    //     else {
+    //         return Math.max(prices[i]+ find(k-1))
+    //     }
+    // }
     public int maxProfit(int k, int[] prices) {
-        int n = prices.length;
-        int[][][] dp = new int[n][k+1][2];
+        
+        int n=prices.length;
+        int dp[][][]=new int[n+1][2][k+1];
+        
+        for(int i=n-1;i>=0;i--){
+            for(int z=0;z<2;z++)
+            for(int j=1;j<=k;j++){
+                if(z==0)
+                dp[i][0][j]=Math.max(-prices[i]+dp[i+1][1][j], dp[i+1][0][j]);
+                else 
+                dp[i][1][j]=Math.max(prices[i]+dp[i+1][0][j-1], dp[i+1][1][j]);
 
-        for(int i=0;i<n;i++)
-            for(int j=0;j<=k;j++)
-                for(int h=0;h<2;h++)
-                    dp[i][j][h] = -1;
-
-        return find(0, k, 0, prices, n, dp);
+               
+            }
+            
+        }
+        return dp[0][0][k];
+        
     }
 }
