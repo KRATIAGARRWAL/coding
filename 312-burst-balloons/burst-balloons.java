@@ -16,11 +16,28 @@ class Solution {
     public int maxCoins(int[] nums) {
         int n=nums.length;
         int dp[][]=new int[n][n];
-        for(int i=0;i<n;i++){
+
+
+        for(int i=n-1;i>=0;i--){
             for(int j=0;j<n;j++){
-                dp[i][j]=-1;
+                if(i>j) continue;
+                int ans=0;
+            int a=1;
+            if(i>0) a=nums[i-1];
+            int b=1;
+            if(j<nums.length-1) b=nums[j+1];
+            for(int k=i;k<=j;k++){
+                 int left = (k == i) ? 0 : dp[i][k-1];
+                int right = (k == j) ? 0 : dp[k+1][j];
+
+                dp[i][j] = Math.max(dp[i][j],
+                    a * nums[k] * b + left + right
+                );
             }
+            
         }
-        return find(0,n-1, nums,dp);
+        
     }
+    return dp[0][n-1];
+}
 }
