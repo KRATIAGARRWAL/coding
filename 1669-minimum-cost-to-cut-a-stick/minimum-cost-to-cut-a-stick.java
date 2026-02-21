@@ -17,12 +17,32 @@ class Solution {
     public int minCost(int n, int[] cuts) {
         Arrays.sort(cuts);
         int dp[][]=new int[cuts.length][cuts.length];
-        for(int i=0;i<cuts.length;i++){
+        for(int i=cuts.length-1;i>=0;i--){
             for(int j=0;j<cuts.length;j++){
-                dp[i][j]=-1;
+                if(i>j)continue;
+                int a=0;
+                
+                if(i>0) a=cuts[i-1];
+                int b=n;
+                if(j<cuts.length-1){
+                    b=cuts[j+1];
+                }
+                int ans=Integer.MAX_VALUE;
+                for(int k=i;k<=j;k++){
+                    int c=0;
+                    if(k!=i){
+                        c=dp[i][k-1];
+                    }
+                    int d=0;
+                    if(k!=j){
+                        d=dp[k+1][j];
+                    }
+                    ans=Math.min(ans, b-a +  c+d);
+                }
+                dp[i][j]=ans;
             }
         }
-        return find(n,cuts,0,cuts.length-1,dp);
+        return dp[0][cuts.length-1];
 
     }
 }
