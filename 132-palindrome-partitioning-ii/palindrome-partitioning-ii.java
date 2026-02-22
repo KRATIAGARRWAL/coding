@@ -21,14 +21,25 @@ class Solution {
     }
     public int minCut(String s) {
         int n=s.length();
-        int dp[]=new int[n];
-        for(int i=0;i<n;i++){
-            
-                dp[i]=-1;
-            
+        int dp[]=new int[n+1];
+        for(int i=n-1;i>=0;i--){
+            int ans= n-i;
+            for(int j=i;j<n;j++){
+                int st=i, e= j;
+                while(st<e && s.charAt(st)==s.charAt(e)){
+                    st++;
+                    e--;
+                }
+                if(st>=e){
+                
+                    ans=Math.min(ans,1+ dp[j+1]);
+                    
+                }
+            }
+            dp[i]=ans;
         }
         
         
-        return find(0, s,s.length(),dp)-1;
+        return dp[0]-1;
     }
 }
